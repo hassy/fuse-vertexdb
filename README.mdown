@@ -1,2 +1,4 @@
 
 Experimental FUSE interface for [vertexdb](http://github.com/stevedekorte/vertexdb).
+
+OSX only for now. Assumes vertexdb is accessible on localhost:8080. Created FS is read-only.
