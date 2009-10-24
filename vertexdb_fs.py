@@ -6,6 +6,7 @@ from stat import S_IFDIR, S_IFLNK, S_IFREG
 from sys import argv, exit
 from time import time
 import os
+import platform
 
 from fuse import FUSE, Operations, LoggingMixIn
 
@@ -21,11 +22,14 @@ class VertexDbFs(Operations):
         self.vdb = VertexDb()
         
     def getattr(self, path, fh):
-        # FIXME: Don't add 2 to st_nlink if on Linux.
         now = time() # FIXME: Get correct times.
         if self.vdb.is_dir(path):
-            children_count = self.vdb.size(path)
-            return dict(st_mode=(S_IFDIR|0755), st_ctime=now, st_mtime=now, st_atime=now, st_nlink=children_count+2)
+            if platform.system() == "Darwin":
+                st_nlink = self.vdb.size(path) + 2
+            elif platform.system() == "Linux":
+                st_nlink = self.vdb.size(path)
+                
+            return dict(st_mode=(S_IFDIR|0755), st_ctime=now, st_mtime=now, st_atime=now, st_nlink=st_nlink)
         else:
             data = self.vdb.read(path)
             return dict(st_mode=(S_IFREG|0444), st_size=len(data), st_ctime=now, st_mtime=now, st_atime=now, st_nlink=1)
