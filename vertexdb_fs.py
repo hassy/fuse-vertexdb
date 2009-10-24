@@ -24,7 +24,7 @@ class VertexDbFs(Operations):
         # FIXME: Don't add 2 to st_nlink if on Linux.
         now = time() # FIXME: Get correct times.
         if self.vdb.is_dir(path):
-            children_count = len(self.vdb.keys(path))
+            children_count = self.vdb.size(path)
             return dict(st_mode=(S_IFDIR|0755), st_ctime=now, st_mtime=now, st_atime=now, st_nlink=children_count+2)
         else:
             data = self.vdb.read(path)
