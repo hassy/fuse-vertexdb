@@ -1,4 +1,6 @@
 
 Experimental FUSE interface for [vertexdb](http://github.com/stevedekorte/vertexdb).
 
+Requires Python 2.6 and [MacFUSE](http://code.google.com/p/macfuse/).
+
 OSX only for now. Assumes vertexdb is accessible on localhost:8080. Created FS is read-only.
