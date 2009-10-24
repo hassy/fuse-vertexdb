@@ -66,15 +66,16 @@ class VertexDb:
                 else:
                     return True
 
-vdb = VertexDb("http://localhost:8080")
-print "size: ", vdb.size("/")
-vdb.mkdir("/test/")
-vdb.write("/test/", "akey", "avalue")
-print "read: ", vdb.read("/test/", "akey")
-print "keys: ", vdb.keys("/")
-print "pairs: ", vdb.pairs("/")
-print "is_dir: ", vdb.is_dir("/test/")
-print "read: ", vdb.read("/test/akey")
+if __name__ == "main":
+    vdb = VertexDb("http://localhost:8080")
+    print "size: ", vdb.size("/")
+    vdb.mkdir("/test/")
+    vdb.write("/test/", "akey", "avalue")
+    print "read: ", vdb.read("/test/", "akey")
+    print "keys: ", vdb.keys("/")
+    print "pairs: ", vdb.pairs("/")
+    print "is_dir: ", vdb.is_dir("/test/")
+    print "read: ", vdb.read("/test/akey")
 
 # print vdb.stat("/test/")
 
