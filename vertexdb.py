@@ -36,7 +36,7 @@ class VertexDb:
       return urlopen("%s%s%s" % (self.host, path, "?action=mkdir")).read()
 
     def size(self, path):
-        return urlopen("%s%s%s" % (self.host, path, "?action=size")).read()
+        return int(urlopen("%s%s%s" % (self.host, path, "?action=size")).read())
     
     def pairs(self, path):
         return json.loads(urlopen("%s%s%s" % (self.host, path, "?action=select&op=pairs")).read())
