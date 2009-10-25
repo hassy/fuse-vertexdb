@@ -13,6 +13,9 @@ class VertexDb:
     
     def write(self, path, key, val):
         return urlopen("%s%s%s%s" % (self.host, path, "?action=write&key=", key), val).read()
+
+    def write2(self, path, val):
+        return self.write(os.path.dirname(path), os.path.basename(path), val)
         
     def read(self, path, key=None):
         # If key is not given, use the last component of path as key.
