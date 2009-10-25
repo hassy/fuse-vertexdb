@@ -1,17 +1,7 @@
 import urllib2
 from urllib2 import urlopen
 import simplejson as json
-
-def split_path(path):
-    comps = [c for c in path.split("/") if c != ""]
-    if len(comps) == 1:
-        parent = "/"
-        last = comps[0]
-    else:
-        parent = "/" + "/".join(comps[0:-1]) + "/"
-        last = path.split("/")[-1]
-
-    return [parent, last]
+import os.path
 
 class VertexDb:
     
@@ -29,8 +19,7 @@ class VertexDb:
         if key is not None:
             return urlopen("%s%s%s%s" % (self.host, path, "?action=read&key=", key)).read()
         else:
-            [parent, key] = split_path(path)
-            return self.read(parent, key)
+            return self.read(os.path.dirname(path), os.path.basename(path))
         
     def mkdir(self, path):
       return urlopen("%s%s%s" % (self.host, path, "?action=mkdir")).read()
