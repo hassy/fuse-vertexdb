@@ -40,36 +40,20 @@ class VertexDb:
         print "Not supported in vertexdb yet."
         return urlopen("%s%s%s" % (self.host, path, "?action=stat")).read()
     
+    def mknod(self, path, key=None):
+        """
+        vdb.mknod("/some/path/", "_newkey")
+            or
+        vdb.mknod("/some/path/_newkey")
+        """
+        if key is not None:
+            print "================= key: %s, path: %s" % (key, path) 
+            return urlopen("%s%s%s&key=%s" % (self.host, path, "?action=mknod", key)).read()
+        else:
+            parent = os.path.dirname(path)
+            newkey = os.path.basename(path)
+            print "================= parent: %s, newkey: %s" % (parent, newkey) 
+            return self.mknod(parent, newkey)
+    
     def is_dir(self, path):
-        # FIXME: Returns False on empty directories. (Need stat in vertexdb.)
-        # FIXME: is_dir("/test/k/") returns None when /test/k is a file.
-
-        if path == "/":
-            return True
-        
-        [parent, last] = split_path(path)
-        
-        pairs_json = self.pairs(parent)
-        
-        for e in pairs_json:
-            if e[0] == last:
-                if e[1] == {}:
-                    return False
-                else:
-                    return True
-
-if __name__ == "main":
-    vdb = VertexDb("http://localhost:8080")
-    print "size: ", vdb.size("/")
-    vdb.mkdir("/test/")
-    vdb.write("/test/", "akey", "avalue")
-    print "read: ", vdb.read("/test/", "akey")
-    print "keys: ", vdb.keys("/")
-    print "pairs: ", vdb.pairs("/")
-    print "is_dir: ", vdb.is_dir("/test/")
-    print "read: ", vdb.read("/test/akey")
-
-# print vdb.stat("/test/")
-
-# Implement protocols so that nodes can be used as dictionaries etc?
-# Look at fs APIs.
+        return not(os.path.basename(path).startswith("_"))
