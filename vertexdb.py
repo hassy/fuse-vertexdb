@@ -47,11 +47,9 @@ class VertexDb:
         vdb.mknod("/some/path/_newkey")
         """
         if key is not None:
-            return urlopen("%s%s%s&key=%s" % (self.host, path, "?action=mknod", key)).read()
+            return self.write(path, key, "")
         else:
-            parent = os.path.dirname(path)
-            newkey = os.path.basename(path)
-            return self.mknod(parent, newkey)
+            return self.write2(path, "")
     
     def is_dir(self, path):
         return not(os.path.basename(path).startswith("_"))
