@@ -73,3 +73,12 @@ class VertexDb:
     
     def is_dir(self, path):
         return not(os.path.basename(path).startswith("_"))
+
+    def rm(self, path):
+        if self.is_dir(path):
+            pass
+        else:
+            dirname = os.path.dirname(path)
+            key = os.path.basename(path)
+            return urlopen("%s%s%s%s" % (self.host, dirname, "?action=rm&key=", key)).read()
+
