@@ -381,7 +381,7 @@ class FUSE(object):
     def readdir(self, path, buf, filler, offset, fip):
         # Ignore raw_fi
         for item in self.operations('readdir', path, fip.contents.fh):
-            if isinstance(item, str):
+            if isinstance(item, str) or isinstance(item, unicode):
                 name, st, offset = item, None, 0
             else:
                 name, attrs, offset = item
