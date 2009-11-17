@@ -27,7 +27,8 @@ class VertexDb:
     def read(self, path, key=None):
         # If key is not given, use the last component of path as key.
         if key is not None:
-            return urlopen("%s%s%s%s" % (self.host, path, "?action=read&key=", key)).read()
+            data = urlopen("%s%s%s%s" % (self.host, path, "?action=read&key=", key)).read()
+            return data[1:-2]
         else:
             return self.read(os.path.dirname(path), os.path.basename(path))
         
