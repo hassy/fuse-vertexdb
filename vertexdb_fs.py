@@ -1,7 +1,7 @@
 # FUSE interface for vertexdb
 # by Hasan Veldstra
 
-from errno import ENOENT, EACCES
+from errno import ENOENT, EACCES, EROFS
 from stat import S_IFDIR, S_IFLNK, S_IFREG
 from sys import argv, exit
 from time import time
@@ -82,16 +82,33 @@ class VertexDbFs(LoggingMixIn, Operations):
         self.vdb.write2(path, w)
         return len(data)
     
+    # ?? 
     def mknod(self, path, mode, dev):
         self.vdb.mknod(path)
         return 0
 
+    # ??
     def create(self, path, mode):
         self.mknod(path, mode, None)
         return 0
 
     def mkdir(self, path, mode):
         self.vdb.mkdir(path)
+
+    def rmdir(self, path):
+        st_nlink = self.getattr(path, None)["st_nlink"]
+        if st_nlink == 0 and platform.system() == "Darwin":
+            raise OSError(EROFS, "")
+        if st_nlink == 2 and platform.system() == "Linux":
+            raise OSError(EROFS, "")
+
+        self.vdb.rm(path)
+        return 0
+
+    def unlink(self, path):
+        self.vdb.rm(path)
+        return 0
+
 
 if __name__ == "__main__":
     if len(argv) != 2:
