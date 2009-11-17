@@ -7,5 +7,13 @@ OSX only for now. Assumes vertexdb is accessible on localhost:8080.
 
 **TODO**
 
-* Test on Linux.
-* mkdir, rm, mv, cp, ln.
+* Editing files.
+* Removing files and directories.
+* Renaming files and directories.
+* Symlinking.
+* Moving.
+
+
+**KNOWN BUGS**
+
+* Newlines in values not supported (due to a bug in FUSE binding).
