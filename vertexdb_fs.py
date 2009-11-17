@@ -50,6 +50,13 @@ class VertexDbFs(LoggingMixIn, Operations):
             return dict(st_mode=(S_IFREG|0666), st_size=len(data), st_ctime=now, st_mtime=now, st_atime=now, st_nlink=1, st_uid=uid, st_gid=gid)
             
     def open(self, path, flags):
+        # Create file if needed.
+        if not self.vdb.exists(path):
+            if(flags & os.O_CREAT) == os.O_CREAT:
+                self.vdb.mknod(path)
+            else:
+                raise OSError(ENOENT, "")
+
         return 0
         
     def access(self, path, amode):
@@ -80,7 +87,8 @@ class VertexDbFs(LoggingMixIn, Operations):
         return 0
 
     def create(self, path, mode):
-        return self.mknod(path, mode, None)
+        self.mknod(path, mode, None)
+        return 0
 
     def mkdir(self, path, mode):
         self.vdb.mkdir(path)
