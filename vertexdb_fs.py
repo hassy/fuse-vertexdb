@@ -82,6 +82,9 @@ class VertexDbFs(LoggingMixIn, Operations):
     def create(self, path, mode):
         return self.mknod(path, mode, None)
 
+    def mkdir(self, path, mode):
+        self.vdb.mkdir(path)
+
 if __name__ == "__main__":
     if len(argv) != 2:
         print "usage: %s <mountpoint>" % argv[0]
