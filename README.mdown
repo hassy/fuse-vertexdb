@@ -8,14 +8,13 @@ On Ubuntu install libfuse2.
 
 **TODO**
 
-* Editing files.
-* Removing files and directories.
-* Renaming files and directories.
 * Symlinking.
-* Moving.
+* Renaming / moving.
 
 
 **KNOWN BUGS**
 
 * Assumes vertexdb is accessible on localhost:8080.
 * Newlines in values not supported (due to a bug in FUSE binding).
+* rmdir does not work (bug in Vertexdb).
+* Rename does not handle symlinks.
