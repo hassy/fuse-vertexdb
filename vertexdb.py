@@ -10,6 +10,8 @@ except:
     import json
 import os.path
 
+class KeyDoesNotExist(Exception): pass
+
 class VertexDb:
     
     def __init__(self, host="http://localhost:8080"):
@@ -17,7 +19,15 @@ class VertexDb:
     
     def __str__(self):
         return "vertexdb at %s" % self.host
-    
+
+    def exists(self, path):
+        try:
+            self.read(path)
+        except:
+            return False
+        
+        return True
+
     def write(self, path, key, val):
         return urlopen("%s%s%s%s%s%s" % (self.host, path, "?action=write&key=", key, "&value=", val)).read()
 
@@ -28,6 +38,8 @@ class VertexDb:
         # If key is not given, use the last component of path as key.
         if key is not None:
             data = urlopen("%s%s%s%s" % (self.host, path, "?action=read&key=", key)).read()
+            if data == "null": # this should be signalled properly by Vertexdb
+                raise KeyDoesNotExist()
             return data[1:-1]
         else:
             return self.read(os.path.dirname(path), os.path.basename(path))
