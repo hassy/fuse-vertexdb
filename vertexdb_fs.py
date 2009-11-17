@@ -28,7 +28,7 @@ class VertexDbFs(LoggingMixIn, Operations):
         gid = pwd.getpwuid(os.getuid()).pw_gid
         if self.vdb.is_dir(path):
             try:
-                size = self.vdb.size(path) + 2
+                size = self.vdb.size(path)
             except:
                 raise OSError(ENOENT, "")
 
