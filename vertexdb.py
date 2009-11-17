@@ -1,6 +1,9 @@
 import urllib2
 from urllib2 import urlopen
-import simplejson as json
+try:
+    import simplejson as json
+except:
+    import json
 import os.path
 
 class VertexDb:
@@ -12,7 +15,7 @@ class VertexDb:
         return "vertexdb at %s" % self.host
     
     def write(self, path, key, val):
-        return urlopen("%s%s%s%s" % (self.host, path, "?action=write&key=", key), val).read()
+        return urlopen("%s%s%s%s%s%s" % (self.host, path, "?action=write&key=", key, "&value=", val)).read()
 
     def write2(self, path, val):
         return self.write(os.path.dirname(path), os.path.basename(path), val)
