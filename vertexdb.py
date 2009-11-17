@@ -1,3 +1,7 @@
+# Super-simple bindings for Vertexdb.
+# Hasan Veldstra <hasan@12monkeys.co.uk>
+# License: same as Python.
+
 import urllib2
 from urllib2 import urlopen
 try:
