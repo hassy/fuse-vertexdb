@@ -73,7 +73,7 @@ class VertexDbFs(LoggingMixIn, Operations):
     def write(self, path, data, offset, fh):
         w = data.split("\n")[0]
         self.vdb.write2(path, w)
-        return len(w)
+        return len(data)
     
     def mknod(self, path, mode, dev):
         self.vdb.mknod(path)
