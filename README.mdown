@@ -11,10 +11,21 @@ On Ubuntu install libfuse2.
 * Symlinking.
 * Renaming / moving.
 
-
 **KNOWN BUGS**
 
 * Assumes vertexdb is accessible on localhost:8080.
 * Newlines in values not supported (due to a bug in FUSE binding).
 * rmdir does not work (bug in Vertexdb).
 * Rename does not handle symlinks.
+
+**TROUBLESHOOTING**
+
+If you get an exception on OSX that looks like this:
+
+    OSError: dlopen(/opt/local/lib/libfuse.dylib, 6): Symbol not found: _iconv
+      Referenced from: /opt/local/lib/libfuse.dylib
+      Expected in: flat namespace
+      
+Run fuse-vertexdb with:
+
+    DYLD_LIBRARY_PATH=/usr/lib:$DYLD_LIBRARY_PATH python vertexdb_fs.py /tmp/vertexdb/
