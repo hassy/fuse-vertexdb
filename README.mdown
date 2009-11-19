@@ -3,7 +3,7 @@ Experimental FUSE interface for [vertexdb](http://github.com/stevedekorte/vertex
 
 Requires Python 2.6 and FUSE.
 
-On OSX install [MacFUSE](http://code.google.com/p/macfuse/).
+On OSX install [MacFUSE](http://code.google.com/p/macfuse/). Or `sudo port install macfuse`
 On Ubuntu install libfuse2.
 
 **TODO**
